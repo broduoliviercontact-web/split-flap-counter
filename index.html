@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Violences sexuelles enregistrées en France</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@hot-page/hotfx-split-flap@0.0.1" type="module"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #050505;
+    --fg: #e8e8e8;
+    --muted: #777;
+    --muted2: #555;
+    --muted3: #333;
+    --card: #0d0d0d;
+    --card-border: #1a1a1a;
+    --accent: #a855f7;
+    --accent-dim: rgba(168, 85, 247, 0.15);
+    --radius: 12px;
+    --max-w: 560px;
+  }
+
+  body {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    padding: 2rem 1.25rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  main {
+    width: 100%;
+    max-width: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* ── Header ── */
+  .header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .header h1 {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(0.65rem, 1.8vw, 0.85rem);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+    line-height: 1.7;
+  }
+
+  .header h1 .accent-word {
+    color: var(--fg);
+    font-weight: 800;
+  }
+
+  /* ── Year badge ── */
+  .year-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+    padding: 0.3rem 0.85rem;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 100px;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .year-badge .dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+
+  /* ── Display container ── */
+  .display-container {
+    background: var(--card);
+    padding: clamp(16px, 3vw, 40px) clamp(12px, 3vw, 40px);
+    border-radius: var(--radius);
+    border: 1px solid var(--card-border);
+    position: relative;
+    max-width: 95vw;
+    margin: 0 auto;
+  }
+
+  .display-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  /* ── HotFX Split Flap styling ── */
+  hotfx-split-flap {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: clamp(5rem, 22vw, 20rem);
+    font-weight: 800;
+    --hotfx-split-flap-grid-gap: 0.05em;
+    position: relative;
+    z-index: 1;
+  }
+
+  hotfx-split-flap::part(char) {
+    width: 0.78em;
+    height: 1.1em;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
+  }
+
+  hotfx-split-flap::part(flap) {
+    background: linear-gradient(180deg, #1a1a24 0%, #111118 100%);
+    color: #ececec;
+    text-shadow: none;
+  }
+
+  hotfx-split-flap::part(divider) {
+    background-color: rgba(255,255,255,0.04);
+    height: 1px;
+  }
+
+  /* ── Info section ── */
+  .info {
+    margin-top: 2.5rem;
+    width: 100%;
+    max-width: var(--max-w);
+    text-align: center;
+  }
+
+  .subtitle {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(0.75rem, 1.5vw, 0.9rem);
+    color: var(--muted2);
+    line-height: 1.7;
+    font-weight: 500;
+  }
+
+  .subtitle strong {
+    color: var(--fg);
+    font-weight: 700;
+  }
+
+  /* ── Progress bar ── */
+  .progress-section {
+    margin-top: 1.75rem;
+    width: 100%;
+  }
+
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.65rem;
+    color: var(--muted3);
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.04em;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .progress-track {
+    width: 100%;
+    height: 2px;
+    background: var(--muted3);
+    border-radius: 1px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 1px;
+    transition: width 1s linear;
+    opacity: 0.7;
+  }
+
+  /* ── Methodology card ── */
+  .methodology-card {
+    margin-top: 2.5rem;
+    padding: 1.5rem 2rem;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    max-width: var(--max-w);
+    text-align: center;
+  }
+
+  .methodology-card .methodology-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted3);
+    margin-bottom: 0.75rem;
+  }
+
+  .methodology-card p {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.75rem;
+    color: var(--muted2);
+    line-height: 1.7;
+    text-align: left;
+    margin: 0 0 0.6rem;
+  }
+
+  .methodology-card p:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .methodology-card .source {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.6rem;
+    color: var(--muted3);
+    letter-spacing: 0.03em;
+    line-height: 1.5;
+    text-align: center;
+    border-top: 1px solid var(--card-border);
+    padding-top: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .methodology-card .source a {
+    color: var(--muted2);
+    text-decoration: none;
+    border-bottom: 1px solid var(--muted3);
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .methodology-card .source a:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  /* ── Start overlay ── */
+  #start-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+  }
+
+  #start-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  #start-btn {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--fg);
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 100px;
+    padding: 0.9rem 2.5rem;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, transform 0.15s;
+  }
+
+  #start-btn:hover {
+    background: #151515;
+    border-color: var(--accent);
+    transform: scale(1.04);
+  }
+
+  #start-btn:active {
+    transform: scale(0.97);
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 480px) {
+    body { padding: 1.5rem 0.75rem; }
+    .display-container { padding: 12px 8px; }
+    .methodology-card { padding: 1rem 1.25rem; }
+    .methodology-card p { font-size: 0.65rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Audio loaded as data URIs in JS via Web Audio API -->
+
+
+<main>
+  <div class="header">
+    <h1>Violences <span class="accent-word">sexuelles</span><br>enregistrées en France</h1>
+    <div class="year-badge">
+      <span class="dot"></span>
+      <span id="year-badge-text">2024</span>
+    </div>
+  </div>
+
+  <!-- Start overlay — unlocks audio on mobile -->
+  <div id="start-overlay">
+    <button id="start-btn">Commencer</button>
+  </div>
+
+  <div class="display-container">
+    <div class="display-wrapper">
+      <hotfx-split-flap
+        id="counter"
+        duration="100"
+        characters="0123456789">
+      </hotfx-split-flap>
+    </div>
+  </div>
+
+  <div class="info">
+    <p class="subtitle">Victimes enregistrées par la police et la gendarmerie nationale en <strong id="year-subtitle">2026</strong></p>
+
+    <div class="progress-section">
+      <div class="progress-label">
+        <span>1er janv. <span id="year-start">2024</span></span>
+        <span id="progress-pct">0%</span>
+        <span>31 déc. <span id="year-end">2024</span></span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="methodology-card">
+    <div class="methodology-label">Méthodologie et limites</div>
+    <p>Ce compteur affiche une estimation proportionnelle au jour courant, basée sur le total annuel de <strong id="method-year">2025</strong> publié par le SSMSI (Service statistique ministériel de la sécurité intérieure) : 132 300 victimes de violences sexuelles enregistrées en France, en hausse de 8% par rapport à 2024. Il est projeté sur l'année en cours à des fins de visualisation.</p>
+    <p>Le chiffre est réparti linéairement sur 365 jours. Il ne s'agit pas d'un compte en temps réel des signalements : les violences sexuelles sont largement sous-déclarées et le nombre réel de victimes est significativement plus élevé que les chiffres enregistrés.</p>
+    <div class="source">Source : SSMSI / Ministère de l'Intérieur — Données <span id="source-year">2025</span> —
+    <a href="https://www.interieur.gouv.fr/actualites/communiques-de-presse/victimes-de-violences-physiques-et-sexuelles-enregistrees-en-hausse-en-2025-en-particulier-pour" target="_blank" rel="noopener">Communiqué de presse</a></div>
+  </div>
+</main>
+
+<script type="module">
+// ═══════════════════════════════════════════════════════════════
+//  CONFIG
+// ═══════════════════════════════════════════════════════════════
+const CONFIG = {
+  totalValue: 132300,
+  referenceYear: 2025,
+  year: 2026,
+  updateInterval: 10000,
+};
+
+// ═══════════════════════════════════════════════════════════════
+//  AUDIO — Web Audio API (polyphonic, overlapping sound)
+// ═══════════════════════════════════════════════════════════════
+let audioCtx = null;
+let bufferA = null;
+let bufferB = null;
+let audioReady = false;
+
+// Base64 MP3 data URIs (inlined from flip-a.mp3 / flip-b.mp3)
+const FLIP_A_B64 = 'SUQzBAAAAAAAIlRTU0UAAAAOAAADTGF2ZjYyLjMuMTAwAAAAAAAAAAAAAAD/++AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABJbmZvAAAADwAAAAQAABRnAGZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZpmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZnMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzM/////////////////////////////////wAAAABMYXZjNjIuMTEAAAAAAAAAAAAAAAAkA/YAAAAAAAAUZ2ieUfMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/++BkAAAI3nHFjWMgBgAADSCgAAE7di9Bmb4AAmFFykMrYAAAX/vugjwBAGIhkAXwjKCQsoAgFmEfIS1ticjfdYdU7L3qLqGEIAhFYIIfirDbW13rvgd0EJaD7J1DDEONiA4ngVQAVz6+PigFSJlmGGW/gaHHTLYFtEwIdQFmKWZpoYWFhDdfNktPNHhOhqoFBCA2MGSWZIaG8j2+672X0y50h0i2/SMMQw0DhIwwUzyyOxwaMBo5nomeWCh23hhd7X5UyhYRiDuPiXDMgYFCN6j2XLR/dfLkodhhi7GuTkrf+N2LsNuW5cP9pIxD8vypKTdPT096bdty4frQxDlmGIclmHP///////////9591nn3WGGHN4c/P9YYbqUmH509Pb7nn/7zp89U9vuGGH7r0lhGHv4AGRzw8f/gZ8AAJEAQAAAAAAAAAA0MzAwAEHFiCP5t4QYALCgiAgAMGA77SBJQsLhbJgYeGSCYYYmJBAGBZABpIMgMECEODZMACqDTDYBMKhEw0IDIp7MGh8wCQzARCLYGOCoZcIxgYBmdy6ZPcpstXmLx2aaLIROTvYWOWnYw0Aw4Jy8aERi4lB5iMqBU0KUzA4jMlzo3CbTCYJMNhYhQhxAFGThIIwMYMCxigJGOCUZOIh7winGREZnRBmtCnGCAEFw0V4TGhaDG+EMI0GQTFQkMXAgwGBjEwaC4JDCYBAAwQ0EiDHpFNWH43wKQE+guNwUNyJHmWpWaoPRspcGshgLOcGj0OG5cR4UcDBQWCAwYpC5gkFhgPawRCUtsZHHJhkQmNwsYHC5hACioBMBDQxiDTABeASMMJkkZOxr0YE1BMXh9Zqm8ndfKHGqGAAExx38rDoBwUIguBg4mOBRWZVI4VAiX0tAQVBIBIQaLC5ZpgcHgovGGAOYdAa76TPf8w3fwr26V237vROfr6zx27Dh0tE4lSpIm5VsOa+Vx2Hq1yg33NlvZ/nam8915fGKSxbqYa///////3Aidmf5c3Ty+VxqNT2+at1M//////2vsphrdqNWHRlTDEiFlyqFSycklmUf/A2H+P/AyQXLBly////////////////4Hcu5YM/J///////////AxdBdAxxgXAxsCWAxlB7BhAwMaQoAMcQewYS8DJAMIDI4KEDK2D0DKYPIDGUKEGEh/////////wYSAIigBgUwMKQPAMPQUwYKEDD0GYDFAKEDHGCUGCggwUIGKAcQGFIHoMCmBhSAUBhsFCDBhgYUgSIWAkAACbzFgDGk63pghNaAS8HCoKepdhCACkly0EINAUMgxkDSgoDAoEGgVOdM2ZYal6AiYLipkhU9giDguEjR0ZSGmYl5lZScu0mok5kYmTKYVPjSAstqBiUwAMQGFxD/++JkMAKK/X9Sp2dgAJfNBjbhJABqDe1N7esPylq92FgjIvHBgtCoiKQMBLCkyOABgtmZCGGknIZFhxOYKIFx0OQ6HOgSgYgQTQRtAQZcUGrpJo56aWAGOFYdEjICZCUmXoZlJ6qF3yggEhgiATAgIxoYMQFjDDIWHggOGBAYCDDAYIJTBAkYEzAQkICAEblA0mMYMLERgRDANAU66VQovMnYvBHAoGAMGlQPBgMBARClU5EDqVNCZ1LWuNfV2mOwIsoXQXKDQFokO2sI5AEEXnFwf1DQIBEwJQv6mpbWXOf//////////+9fzm//9/vvaeklmGOfbWr32Od73de3Sc3dr1+1rlflJZvY6y1rnMec5lWu9zy1zHHH9WLHN5/+d1tYFBp+8+jdLkEf+Qz/57r+srK3zyq2HUqE6gp4I0cp4dJyNtXro59us83UxiObalsk71VpybX3WEJtdhUnt8FGIZUaSQChRSDaPFo4leUmoogdJNJec0ZOjbX2jvkmjX2fI7NkelGGNEbSSByy9jb8leLJzUdFZgkpSbRVRJMuimx11PlvXtU5ucv3zz2kGc77tAHffTz6f4cdj2ZCQAAQDU62zTJASKzP18y45FW0w0uFQMyRKJBIwopMMMy0ZiwuDgAQDQ8RJopIwwAiAOFqXobsWQqWBUwShccYMCw4ybUzUcyM0DLgzEcy+fyacwsEXDBgTDCjcEAU7FqhiDJgiAYaIByEwDFCEEkpRmNSAQABhyT6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';
+const FLIP_B_B64 = 'SUQzBAAAAAAAIlRTU0UAAAAOAAADTGF2ZjYyLjMuMTAwAAAAAAAAAAAAAAD/++AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABJbmZvAAAADwAAAAQAABRnAGZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZpmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZnMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzM/////////////////////////////////wAAAABMYXZjNjIuMTEAAAAAAAAAAAAAAAAkAkoAAAAAAAAUZ9lIzpIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/++BkAAAI3Gk/DWNABgAADSCgAAE7bi83mb6AAj1Fz08BUAAAZGvAEAMhjIAuw8lPQOXI30ciQOmoGmO0+WSh2HIfyMWPlEPxxYRdEMoZlt2JGEHGpWmtVmjKkwswRw2D440Y3SAKBTYODaJAMgfVx14AQAW8Y2YYUYgEjg9JaswYcw4UFA2btzL/lt1L0ZDFFDNGBowZFOdKocx0aIMi6Y0iZEaAh6l9M/8Pw2pWYESZEuZsyCj4UFGpWmnNhBNoiDjJG5qDwt25G+jOHcqu21tr7XJx91h1juPahh3GvuW5b/v+7bvw/cf+XzD+SzGNxvKG3/jcvt6pL0Ns4fiha2ztr8P0+eHP//1z8MP////www5vPPuFPT91h+888MMOfnnnnz//PO32pG5fn/8D/M+IZ0P/w8PeBj4AjxHQ+gYBgVgAAAAAAADA59hMrHSLaEZWTxRkYoZGCigsUI5oIMKiYOM0EoQHjQKZqImFIZpD4YBgODgHMEwZL+GJAlGEQC+yhxH3MGxPMwzbBRVGPAUmLzCuQpUYFA8LBIZVjKYTiOZ5mmYMhqczKkY5F0CoMMh4hMKgAV2yx2mOmqQpDoemIoBmBYuGOwVm1C4mHANmDoYmdYKHQpurXVXLxl20gaYxND8yUA4whKMz7H80qQgz8FI42TEyGKEwyTswnPs8pVY8ILWHEhQMB6tik5pxDAcKTFc5TMEhzNkbTGISzIsIzAgADLwWzEgWDGZHDaVDzToojB47TDoTnft0kOModR/IcsGRongARjEICDHEITEobggmDD0mTO8txomzFU4jIsJjD8gzDYcjLUQDPwcjEohTIAFzBIJF1yeWTkANMU0cTm+mHQNINgIEzBwAQwNxgCxUA0FnUllQMWUWBUEGKzYwRAcgCYxmDIyRAV7IpLf5//+GGsP/+1MbH/9TOizjcYci9MtftSKz3TZGw01lxElAqAcZrv/hh/////f///////////3LkL/343anHLgpxJShmzdyKsvkGdJ/////+sZA+RLMasvaXs3VuQnpeujMKow+0dPqHLAAAAAAwDA/////////////////BkgA/yoAZIIRkMI/gGfkDUCg////gY4C4MLIMHHAxIDQGDH////+BrQ9AbYOIHDxOBvxZAdSW4HlxyB3SCAdCV4HhSSB358AbSOoHLzqBwRHAaUJIGtQD/////////gFAziCwbwHrh9Q2MNsC+oecLKA1UHuBaOJSDsBt6oYIQAAAAAAAAWckoaBYXXXSMCgIFQQvgnWCBQqKpUChgcmzwKgtSVPDqgL2sgARhOtERzXhSNRafUQGjEKTJkTrGjTQRBxOzXAN01etTsxQICjjNiTqowKkESZnQKAIojgguCpeEHjWFz/++JkNILLCoJTd2dAApRN9hLgmABuQgtLzW2XypTAmAA0mvm+pgQBkwwcnEM001M1BkWClBUhKhQwRSTBowxeFThnChkCBhYZlc5EAMFHNMiASsAiTEhTILDbmTEkSw9ApUuKYIYYgsISAiKGxXj1Y1ZE2JkzpEzY0DJjHgUmEezGgSImtp8nsTnR+DgSwgEDAQQYAU6gsUTreAODGABpCsEMIWMUMEA4RBi1ifIQDL5par8c1nDqTzOGFQIqZ7IALUIJK7wPG3R/042+Y83F8YvypY///f9///////Wv5hUuY/r/1r9/hcymMLde538KlTX549w5jZ5hjz9/+P91zVzuN27T1ubrT1q3ndm7t2rZ/K1/ea3/MbF/FgGaRgkhkc2Rs7Mv7n57X/+5+lQeTP0yG8fe9V4gLHyemctkFpKh7Whh5MtYDMiMagxfqB55MHPTsqKUTPF0yzLNTRKza5OXs0mv6yCzbbee0EwcLsms+zFl7336YmeTJk118+NHrzzy790vz4Q/bbQuED0nTTQBywcBhent07J2/T2be6aDWuZmFkYee355Zyu58+liWJNhERAAiMmy4UigbEBVZ4mIAVHaEm0FmHJGdLmrQGXHJqsLEiIsNRFTKHiwAEkwVSkSNp6gwStFrbuuKVgTDiTQExYmQGx6AZwQYcimUQZlCUdWWGKD4KBBEViBTBykLHooACoaZUAKbtPAwOJAq1AqAGMlxn6IZCEGLiRubMY+BJRvaX8h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';
+
+async function initAudio() {
+  if (audioReady) return;
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  await audioCtx.resume();
+
+  // Decode both sound files from base64
+  const [rawA, rawB] = await Promise.all([
+    fetch(`data:audio/mpeg;base64,${FLIP_A_B64}`).then(r => r.arrayBuffer()),
+    fetch(`data:audio/mpeg;base64,${FLIP_B_B64}`).then(r => r.arrayBuffer()),
+  ]);
+  bufferA = await audioCtx.decodeAudioData(rawA);
+  bufferB = await audioCtx.decodeAudioData(rawB);
+  audioReady = true;
+}
+
+let flipToggle = false;
+let lastSoundTime = 0;
+const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
+const SOUND_THROTTLE = isMobile ? 110 : 60;
+
+function playFlipSound() {
+  if (!audioReady || !audioCtx) return;
+  const now = performance.now();
+  if ((now - lastSoundTime) < SOUND_THROTTLE) return;
+
+  // Each call creates a new one-shot source — sounds overlap naturally
+  const source = audioCtx.createBufferSource();
+  source.buffer = flipToggle ? bufferB : bufferA;
+
+  // Slight random pitch & volume for organic feel
+  source.playbackRate.value = 0.92 + Math.random() * 0.16;
+
+  const gain = audioCtx.createGain();
+  gain.gain.value = 0.6 + Math.random() * 0.4;
+
+  source.connect(gain);
+  gain.connect(audioCtx.destination);
+  source.start(0);
+
+  flipToggle = !flipToggle;
+  lastSoundTime = now;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  PROGRESS CALCULATION
+// ═══════════════════════════════════════════════════════════════
+function getDaysInYear(year) {
+  return ((year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0)) ? 366 : 365;
+}
+
+function getYearProgress() {
+  const now = new Date();
+  const year = CONFIG.year;
+  const refStart = new Date(year, 0, 1);
+  const refEnd = new Date(year + 1, 0, 1);
+  const progress = (now - refStart) / (refEnd - refStart);
+  return Math.max(0, Math.min(progress, 1));
+}
+
+function getCurrentValue() {
+  return Math.floor(CONFIG.totalValue * getYearProgress());
+}
+
+function formatNumber(num) {
+  return num.toString();
+}
+
+function updateProgressBar() {
+  const progress = getYearProgress();
+  const pctEl = document.getElementById('progress-pct');
+  const fillEl = document.getElementById('progress-fill');
+  const pct = (progress * 100);
+  if (pctEl) pctEl.textContent = pct.toFixed(1) + '%';
+  if (fillEl) fillEl.style.width = pct + '%';
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  UPDATE DISPLAY
+// ═══════════════════════════════════════════════════════════════
+function updateDisplay() {
+  const counter = document.getElementById('counter');
+  if (!counter) return;
+
+  const value = getCurrentValue();
+  const formatted = formatNumber(value);
+
+  const newWidth = String(formatted.length);
+  if (counter.getAttribute('width') !== newWidth) {
+    counter.setAttribute('width', newWidth);
+  }
+
+  if (counter.textContent.trim() !== formatted) {
+    counter.textContent = formatted;
+  }
+
+  updateProgressBar();
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════════
+const yearStr = String(CONFIG.year);
+const refYearStr = String(CONFIG.referenceYear);
+document.getElementById('year-start').textContent = yearStr;
+document.getElementById('year-end').textContent = yearStr;
+document.getElementById('year-subtitle').textContent = yearStr;
+document.getElementById('year-badge-text').textContent = yearStr;
+document.getElementById('method-year').textContent = refYearStr;
+document.getElementById('source-year').textContent = refYearStr;
+
+customElements.whenDefined('hotfx-split-flap').then(() => {
+  const counter = document.getElementById('counter');
+  const startBtn = document.getElementById('start-btn');
+  const overlay = document.getElementById('start-overlay');
+
+  const targetValue = getCurrentValue();
+  const targetStr = formatNumber(targetValue);
+  const totalDigits = targetStr.length;
+
+  counter.setAttribute('width', String(totalDigits));
+  counter.setAttribute('height', '1');
+  counter.setAttribute('duration', '100');
+
+  // Force center the internal grid in shadow DOM
+  const shadowStyle = document.createElement('style');
+  shadowStyle.textContent = `#container { justify-self: center !important; }`;
+  counter.shadowRoot.appendChild(shadowStyle);
+
+  // ── Odometer count-up ──
+  const duration = 8000;
+
+  function easeOutExpo(t) {
+    return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+  }
+
+  function startAnimation() {
+    const startTime = performance.now();
+    let lastValue = 0;
+
+    counter.textContent = '0'.repeat(totalDigits);
+    updateProgressBar();
+
+    function animateCountUp(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const easedProgress = easeOutExpo(progress);
+      const currentValue = Math.floor(easedProgress * targetValue);
+
+      if (currentValue !== lastValue) {
+        counter.textContent = String(currentValue).padStart(totalDigits, '0');
+        playFlipSound();
+        lastValue = currentValue;
+      }
+
+      if (progress < 1) {
+        requestAnimationFrame(animateCountUp);
+      } else {
+        counter.textContent = targetStr;
+      }
+    }
+
+    setTimeout(() => {
+      requestAnimationFrame(animateCountUp);
+    }, 350);
+
+    setTimeout(() => {
+      setInterval(updateDisplay, CONFIG.updateInterval);
+    }, duration + 1000);
+  }
+
+  // ── Start on button click (unlocks audio) ──
+  startBtn.addEventListener('click', async () => {
+    overlay.classList.add('hidden');
+    await initAudio();
+    startAnimation();
+  });
+});
+</script>
+
+</body>
+</html>
