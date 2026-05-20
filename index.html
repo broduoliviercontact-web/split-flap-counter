@@ -477,6 +477,7 @@ function updateDisplay() {
 
   if (counter.textContent.trim() !== formatted) {
     counter.textContent = formatted;
+    playFlipSound();
   }
 
   updateProgressBar();
